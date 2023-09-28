@@ -3,6 +3,9 @@ const imgAprovado = '<img src="./imagens/aprovado.png" alt ="Emoji celebrando" /
 const imgReprovado = '<img src="./imagens/reprovado.png" alt ="Emoji decepcionado" /> ';
 const atividades = [];
 const notas = [];
+const spanAprovado = '<span class="resultado aprovado">Aprovado</span>';
+const spanReprovado = '<span class="resultado reprovado">Reprovado</span>';
+const notaMínima = parseFloat (prompt ("Digite a nota mínima:"));
 
 let linhas = '';
 
@@ -18,16 +21,20 @@ function adicionaLinha() {
     const inputNomeAtividade = document.getElementById('nome-atividade');
     const inputNotaAtividade = document.getElementById('nota-atividade');
 
-    atividades.push(inputNomeAtividade.value);
-    notas.push(paserFloat(inputNotaAtividade.value));
+    if (atividades.includes(inputNomeAtividade.value)) {
+        alert (`A atividade: ${inputNomeAtividade.value} já foi inserida`);
+    } else {
+        atividades.push(inputNomeAtividade.value);
+        notas.push(parseFloat(inputNotaAtividade.value));
 
-    let linha = '<tr>';
-    linha += `<td>${inputNomeAtividade.value}</td>`;
-    linha += `<td>${inputNotaAtividade.value}</td>`;
-    linha += `<td>${inputNotaAtividade.value >= 7 ? imgAprovado : imgReprovado}</td>`;
-    linha += '</tr>';
+        let linha = '<tr>';
+        linha += `<td>${inputNomeAtividade.value}</td>`;
+        linha += `<td>${inputNotaAtividade.value}</td>`;
+        linha += `<td>${inputNotaAtividade.value >= notaMínima ? imgAprovado : imgReprovado}</td>`;
+        linha += '</tr>';
 
-    linhas += linha;
+        linhas += linha;
+    }
 
     inputNomeAtividade.value = '';
     inputNotaAtividade.value = '';
@@ -42,7 +49,7 @@ function atualizaMediaFinal() {
     const mediaFinal = calculaMediaFinal();
 
     document.getElementById('media-final-valor').innerHTML = mediaFinal;
-    document.getElementById('media-final-resultado').innerHTML = mediaFinal >= 7 ? 'Aprovado' : 'Reprovado';
+    document.getElementById('media-final-resultado').innerHTML = mediaFinal >= notaMínima ? spanAprovado : spanReprovado;
 }
 
 function calculaMediaFinal() {
